@@ -1,6 +1,6 @@
 # Lista de Struct e leitura de arquivo
 
-# Calculo de IPVA
+# Cálculo de IPVA
 
 ## Segue em anexo as perguntas da lista
 
