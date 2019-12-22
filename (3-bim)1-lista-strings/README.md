@@ -1,4 +1,4 @@
-# Lista de string pre prova
+# Primeira lista de string
 
 ## Segue em anexo as perguntas da lista
 
