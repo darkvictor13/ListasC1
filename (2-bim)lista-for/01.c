@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-void print_alfabeto () {
+void printAlfabeto () {
   for (int a = 'a'; a <= 'z'; a++)
     printf ("%c\n",a);
 }
 
 int main () {
-  print_alfabeto();
+  printAlfabeto();
   return 0;
 }
