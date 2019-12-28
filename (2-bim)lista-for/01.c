@@ -1,8 +1,10 @@
 #include <stdio.h>
 
 void printAlfabeto () {
-  for (int a = 'a'; a <= 'z'; a++)
-    printf ("%c\n",a);
+  int i;
+  for (i = 'a'; i <= 'z'; i++) {
+    printf ("%c\n", i);
+  }
 }
 
 int main () {
