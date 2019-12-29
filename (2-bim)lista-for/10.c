@@ -1,22 +1,22 @@
 #include <stdio.h>
 
-int printa_linha (int b) {
-  int j = 0;
-  for (int i = 1; i <= b; i++) {
+void printaLinhaComPadrao(int n) {
+  char i, j;//usando char para economizar 3bytes de memoria
+  for (i = j = 0; i < n; i++) {//pode colocar o j++ dentro do for
     printf("%c", 'a' + j);
-    j ++;
+    j++;
   }
-  return 0;
 }
 
 int main () {
-  int x,aux = 1;
-  scanf ("%d",&x);
-    for (int i = 1;i <= x;i++,aux++) {
-      if (aux > 3) {
-        aux -= 3;
+  int num_linhas, aux;
+  char i;
+  scanf ("%d", &num_linhas);
+    for (i = aux = 1; i <= num_linhas; i++, aux++) {
+      if (aux == 4) {
+        aux = 1;
       }
-      printa_linha (aux);
+      printaLinhaComPadrao(aux);
       printf("\n");
     }
   return 0;

@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 void printAlfabeto () {
-  int i;
+  char i;
   for (i = 'a'; i <= 'z'; i++) {
     printf ("%c\n", i);
   }

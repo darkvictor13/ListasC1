@@ -1,18 +1,17 @@
 #include <stdio.h>
 
-void printa_linha (int b) {
-  int j = 0;
-  for (int i = 1; i <= b; i++) {
+void printaLinha(int n) {
+  char i, j;//como so precisamos de numeros ate 255 um char ja resolve
+  for (i = j = 1; i < n; i++, j++) {
     printf("%c", 'a' + j);
-    j ++;
   }
 }
 
 int main () {
-  int x;
-  scanf ("%d",&x);
-    for (int i = 1;i <= x;i++) {
-      printa_linha (i);
+  int num_linhas;
+  scanf ("%d", &num_linhas);
+    for (int i = 1; i <= num_linhas; i++) {
+      printaLinha(i);
       printf("\n");
     }
   return 0;

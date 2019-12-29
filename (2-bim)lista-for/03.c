@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 void printa_algumas_letras (int n) {
-  for (int i = 'a'; i < 'a' + n; i++){
-    printf("%c\n",i);
+  for (char i = 'a'; i < 'a' + n; i++){
+    printf("%c\n", i);
   }
 }
 

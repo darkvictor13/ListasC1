@@ -1,16 +1,14 @@
 #include <stdio.h>
 
-int printa_linha (int b) {
-  int j = 0;
-  for (int i = 1; i <= b; i++) {
+void printa_linha (int n) {
+  char i, j;
+  for (i = j = 0; i < n; i++, j++) {
     printf("%c", 'a' + j);
-    j ++;
   }
-  return 0;
 }
 
-void printa_espaco (int b) {
-  for (int i = 1; i <= b; i++) {
+void printa_espaco (int n) {
+  for (int i = 1; i <= n; i++) {
     printf("%c", ' ');
   }
 }

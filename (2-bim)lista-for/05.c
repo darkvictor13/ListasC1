@@ -1,21 +1,17 @@
-void maiusc_minusc (int c) {
-  for (int i = 'a'; i < 'a' + c; i++) {
-    if (i%2 == 1){
+void maiuscMinusc(int n) {
+  char i;
+  for (i = 'a'; i < 'a' + n; i++) {
+    if (i % 2) {//(i % 2 == 1) ou seja i eh impar
       printf("%c\n", i);
-    }
-    if (i%2 == 0) {
+    }else {
       printf("%c\n", i + 'A' - 'a');
     }
   }
 }
 
-void estudei_ponteiro (int * n) {
-  scanf("%d", n);
-}
-
 int main () {
   int x;
-  estudei_ponteiro (&x);
-  maiusc_minusc (x);
+  scanf("%d", &x);
+  maiuscMinusc(x);
   return 0;
 }

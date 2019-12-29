@@ -1,17 +1,14 @@
 #include <stdio.h>
 
-void alfabeto_inv (int n) {
-  for (int i = 'z'; i > 'z'- n; i--)
-    printf ("%c\n",i);
-}
-
-void estudei_ponteiro (int * n) {
-  scanf("%d", n);
+void alfabetoInv(int n) {
+  for (char i = 'z'; i > 'z'- n; i--) {
+    printf ("%c\n", i);
+  }
 }
 
 int main () {
   int x;
-  estudei_ponteiro (&x);
-  alfabeto_inv (x);
+  scanf("%d", &x);
+  alfabetoInv(x);
   return 0;
 }

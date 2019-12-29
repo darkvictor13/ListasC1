@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 void printAlfabetoInv() {
-  for (int a = 'z'; a >= 'a'; a--)
-    printf ("%c\n",a);
+  for (char i = 'z'; i >= 'a'; i--)
+    printf ("%c\n", i);
 }
 
 int main () {

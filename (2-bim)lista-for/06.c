@@ -1,18 +1,17 @@
 #include <stdio.h>
 
-void todas_consoantes () {
-  int i;
+void todasAsConsoantes () {
+  char i;
   for (i = 'b'; i <= 'z'; i++) {
     if (i == 'e' || i == 'i' || i == 'o' || i == 'u') {
-      i ++;
+      i++;
       printf("%c\n", i);
     }else
     printf("%c\n", i);
-    }
+  }
 }
 
 int main () {
-  int x;
-  todas_consoantes ();
+  todasAsconsoantes();
   return 0;
 }

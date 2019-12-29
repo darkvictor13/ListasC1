@@ -1,16 +1,16 @@
 #include <stdio.h>
 
-void printa_linha (int b) {
-  for (int i = 1; i <= b; i++) {
+void printaLinha (int n) {
+  for (char i = 1; i <= n; i++) {
     printf("%c", 'a');
   }
 }
 
 int main () {
-  int x;
-  scanf("%d",&x);
-  for (int i = 1; i <= x; i++) {
-    printa_linha (i);
+  int num_linhas;
+  scanf("%d", &num_linhas);
+  for (int i = 1; i <= num_linhas; i++) {
+    printaLinha(i);
     printf("\n");
   }
   return 0;
