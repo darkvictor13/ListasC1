@@ -15,7 +15,7 @@ void printaEspaco (int n) {
 
 int main () {
   int num_linhas, count_p, count_n;
-  scanf("%d",&num_linhas);
+  scanf("%d", &num_linhas);
   count_p = 1;
   count_n = num_linhas - 1;
   for (int i = 1; i <= num_linhas; count_n--, count_p++, i++){
