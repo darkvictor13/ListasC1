@@ -38,5 +38,6 @@ int main () {
   scanf("%d", &tam);
   lerVetPont(vet, tam);
   printf("%d\n", somaVetPont(vet, tam));
+  
   return 0;
 }
