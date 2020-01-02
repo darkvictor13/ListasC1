@@ -1,5 +1,7 @@
 # Lista de vetores do tipo int
 
+## Obs : Pretendo que neste repositorio tenha feito a lista usando ponteiro e usando indice
+
 ## Segue em anexo as perguntas da lista
 ![!Questoes_da_lista-1](https://user-images.githubusercontent.com/51101723/71260704-48757300-231a-11ea-8392-24b5fe4a393f.jpg)
 ![!Questoes_da_lista-2](https://user-images.githubusercontent.com/51101723/71260706-48757300-231a-11ea-99ae-7dbd17fd5f08.jpg)
