@@ -2,31 +2,14 @@
 
 #define MAXT 100
 
-void lerVet(int v[], int t) {
-  int i;
-  for (i = 0 ; i < t; i++) {
-    scanf("%d", &v[i]);
-  }
-}
-
-void lerVetPonteiro(int *v, int t) {
+void lerVet(int *v, int t) {
   int *fim = (v + t);
   for (; v < fim; v++) {
     scanf("%d", v);
   }
 }
 
-int oProxEhMaior(int v[], int t) {
-  int i, count;
-  for(i = count = 0; i < (t - 1); i++) {
-    if (v[i] < v[i + 1]) {
-      count++;
-    }
-  }
-  return count;
-}
-
-int oProxEhMaiorPonteiro(int *v,int t) {
+int oProxEhMaior(int *v,int t) {
   int count,*final = (v + t - 2);
   //final aponta para o penultimo elemento valido do vetor 
   for (count = 0; v <= final; v++) {
