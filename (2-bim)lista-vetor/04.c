@@ -9,6 +9,13 @@ void lerVet(int v[], int t) {
   }
 }
 
+void lerVetPonteiro(int *v, int t) {
+  int *fim = (v + t);
+  for (; v < fim; v++) {
+    scanf("%d", v);
+  }
+}
+
 int oProxEhMaior(int v[], int t) {
   int i, count;
   for(i = count = 0; i < (t - 1); i++) {
