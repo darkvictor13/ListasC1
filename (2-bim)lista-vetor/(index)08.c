@@ -24,9 +24,9 @@ void copiaVet(int dest[], int org[], int t) {
   }
 }
 
-int maiorIndex(int v[], int t) {
+int maiorIndexMudaInicio(int v[], int inicio, int t) {
   int i, maior;
-  for(maior = 0, i = 1; i < t; i++) {
+  for(maior = inicio, i = inicio + 1; i < t; i++) {
     if (v[maior] < v[i]) {
       maior = i;
     }
@@ -35,10 +35,10 @@ int maiorIndex(int v[], int t) {
 }
 
 void ordenaVet(int v[], int t) {
-  int maior;
-  for (;t > 1; t--) {
-    maior = maiorIndex(v, t);
-    troca(&v[maior], &v[t - 1]);
+  int maior, i;
+  for (i = 0; i < t; i++) {
+    maior = maiorIndex(v, i, t);
+    troca(&v[maior], &v[i]);
   }
 }
 
