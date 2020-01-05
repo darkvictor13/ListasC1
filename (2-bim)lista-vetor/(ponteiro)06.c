@@ -2,7 +2,7 @@
 
 #define MAXT 100
 
-void lerVetPonteiroCompleto(int *v, int *t) {
+void lerVetCompleto(int *v, int *t) {
   scanf("%d", t);
   for (int *fim = (v + *t); v < fim; v++) {
     scanf("%d", v);
@@ -26,7 +26,7 @@ int main () {
   int vet[MAXT], tam;
 
   lerVetCompleto(vet, &tam);
-  printf("%d", maiorIndex(vet, tam));
+  printf("%d\n", maiorIndex(vet, tam));
 
   return 0;
 }

@@ -8,11 +8,9 @@ void troca(int *a, int *b) {
   *b = aux;
 }
 
-void lerVetCompleto(int v[], int *t) {
+void lerVet(int v[], int t) {
   int i;
-
-  scanf("%d", t);
-  for (i = 0 ; i < *t; i++) {
+  for (i = 0 ; i < t; i++) {
     scanf("%d", &v[i]);
   }
 }
@@ -38,17 +36,25 @@ void copiaVet(int dest[], int org[], int t) {
 void trocaMaiorComPrimeiro(int v[], int t) {
   int aux;
   aux = maiorIndex(v, t);
-  troca(v[aux], v[0]);
+  troca(&v[aux], &v[0]);
   /*pode ser reescrito em 1 linha
   troca(v[maiorIndex(v, t)], v[0]);*/
+}
+
+void printVet(int v[], int t) {
+  for (int i = 0; i < t; i++) {
+    printf("%d\n", v[i]);
+  }
 }
 
 int main () {
   int entrada[MAXT], trocado[MAXT], tam;
 
-  lerVetCompleto(entrada, &tam);
+  scanf("%d", &tam);
+  lerVet(entrada, tam);
   copiaVet(trocado, entrada, tam);
   trocaMaiorComPrimeiro(trocado, tam);
+  printVet(trocado, tam);
 
   return 0;
 }

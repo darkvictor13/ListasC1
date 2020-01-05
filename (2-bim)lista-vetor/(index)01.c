@@ -23,7 +23,6 @@ int main () {
   scanf("%d", &tam);
   lerVet(vet, tam);
   printf("%d\n", somaVet(vet, tam));
-  system("PAUSE");
   
   return 0;
 }

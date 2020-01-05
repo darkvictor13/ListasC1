@@ -25,7 +25,7 @@ int main () {
   scanf("%d", &tam);
   lerVet(vet, tam);
   aux = maiorIndex(vet, tam);
-  printf("%d", aux);
+  printf("%d\n", aux);
 
   return 0;
 }
