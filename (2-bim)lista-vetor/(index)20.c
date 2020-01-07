@@ -16,7 +16,7 @@ void printVet(int v[], int t) {
   }
 }
 
-int EhPrimo (int n) {
+int ehPrimo (int n) {
   int i;
 
   if (n < 2) return 0; 
@@ -33,7 +33,7 @@ void separaOsPrimos(int v1[], int *t1, int v2[], int *t2, int r[], int t_r) {
   int i, c1, c2;
 
   for (i = c1 = c2 = 0; i < t_r; i++) {
-    if (EhPrimo(r[i])) {
+    if (ehPrimo(r[i])) {
       v1[c1] = r[i];
       c1++;
     }else {
