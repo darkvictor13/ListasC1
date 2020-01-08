@@ -50,9 +50,9 @@ int main () {
 
   lerVetCompleto(entrada, &t_e);
   separaOsPrimos(v1,&t1, v2, &t2, entrada, t_e);
-  printf("Primeiro vetor\n");
+  printf("primos\n");
   printVet(v1, t1);
-  printf("\nSegundo vetor\n");
+  printf("\nnao primos\n");
   printVet(v2, t2);
 
   return 0;
