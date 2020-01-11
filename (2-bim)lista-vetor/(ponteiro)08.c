@@ -8,6 +8,8 @@ void troca(int *a, int *b) {
   *b = aux;
 }
 
+aaaaa
+
 int main () {
   int vet[MAXT];
 }
