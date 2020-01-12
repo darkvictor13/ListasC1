@@ -40,6 +40,8 @@ void ordenaVet(int v[], int t) {
     maior = maiorIndex(v, i, t);
     troca(&v[maior], &v[i]);
   }
+  //foi usado selection sort, achando o maior
+  //no arquivo do ponteiro vou achar o menor
 }
 
 void printVet(int v[], int t) {

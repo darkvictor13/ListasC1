@@ -2,12 +2,6 @@
 
 #define MAXT 100
 
-void troca(int *a, int *b) {
-  int aux = *a;
-  *a = *b;
-  *b = aux;
-}
-
 void copiaVet(int *dest, int *org, int t) {
   for (int *fim = (org + t); org < fim; org++, dest++) {
     *dest = *org;
@@ -27,28 +21,28 @@ void lerVetCompleto(int *v, int *t) {
   }
 }
 
-int * achaLocalDoMaior(int *v, int t) {
-  int *fim = (v + t), *maior = v;
-  for (v++; v < fim; v++) {
-    if (*maior < *v) {
-      maior = v;
-    }
-  }
-  return maior;
-}
+void permuta2A2(int *dest, int *org, int t_o, int *t_d){
+  int *acaba = (org + t_o - 2);
+  *t_d = t_o;
 
-void criaVetResposta(int *dest, int *org, int tam_o, int *tam_d) {
-  copiaVet(dest, org, tam_o);
-  *tam_d = tam_o;
-  troca(achaLocalDoMaior(dest, (*tam_d)), dest);//dest == &dest[0]
+  for (;org < acaba; org += 2, dest += 2) {
+    *dest = *(org + 1);
+    *(dest + 1) = *org;
+  }
+  if (t_o % 2) {
+    *dest = *org;
+  }else {
+    *dest = *(org + 1);
+    *(dest + 1) = *org;
+  }
 }
 
 int main () {
   int vet[MAXT], resp[MAXT], tam_v, tam_r;
 
   lerVetCompleto(vet, &tam_v);
-  criaVetResposta(resp, vet, tam_v, &tam_r);
+  permuta2A2(resp, vet, tam_v, &tam_r);
   printVet(resp, tam_r);
-
+  
   return 0;
 }
