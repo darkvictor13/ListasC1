@@ -3,5 +3,16 @@
         "chrono": "c",
         "algorithm": "c",
         "stdio.h": "c"
-    }
+    },
+    "editor.tabSize": 2,
+    "editor.mouseWheelZoom": true
+    //Extensoes que devem ser instaladas para programar em C
+    //Nome : C/C++, intellisense da microsoft
+    //C/C++ Compile Run
+
+    //Extensoes P deixa bonito
+    //indent-rainbow
+    //Rainbow Brackets
+    //Bracket Pair Colorizer
+    //Um theme qualquer to usando Dracula
 }
