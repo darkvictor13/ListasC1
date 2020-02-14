@@ -43,11 +43,15 @@ void preencheVetComNPrimos(int v[], int N) {
 int main () {
   int vet[MAXT],num_de_primos;
   
+  printf("Entre com o tam do vet : ");
   scanf("%d", &num_de_primos);
+  printf("==\n");
   while (num_de_primos > 0) {
     preencheVetComNPrimos(vet, num_de_primos);
     printVet(vet, num_de_primos);
+    printf("==\nDenovo : ");
     scanf("%d", &num_de_primos);
+    printf("==\n");
   }
 
   return 0;
