@@ -47,7 +47,6 @@ void separaOsPrimos(int v1[], int *t1, int v2[], int *t2, int r[], int t_r) {
 
 int main () {
   int v1[MAXT], v2[MAXT], entrada[MAXT], t1, t2, t_e;
-
   lerVetCompleto(entrada, &t_e);
   separaOsPrimos(v1,&t1, v2, &t2, entrada, t_e);
   printf("primos\n");

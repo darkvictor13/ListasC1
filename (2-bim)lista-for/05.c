@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 void maiuscMinusc(int n) {
   char i;
   for (i = 'a'; i < 'a' + n; i++) {

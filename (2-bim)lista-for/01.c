@@ -1,13 +1,13 @@
 #include <stdio.h>
 
 void printAlfabeto () {
-  char i;
+	char i;
   for (i = 'a'; i <= 'z'; i++) {
-    printf ("%c\n", i);
+		printf ("%c\n", i);
   }
 }
 
 int main () {
-  printAlfabeto();
+	printAlfabeto();
   return 0;
 }

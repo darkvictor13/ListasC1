@@ -5,13 +5,12 @@ void todasAsConsoantes () {
   for (i = 'b'; i <= 'z'; i++) {
     if (i == 'e' || i == 'i' || i == 'o' || i == 'u') {
       i++;
-      printf("%c\n", i);
-    }else
+    }
     printf("%c\n", i);
   }
 }
 
 int main () {
-  todasAsconsoantes();
+  todasAsConsoantes();
   return 0;
 }
