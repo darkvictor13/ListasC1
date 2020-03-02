@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 void fazPadrao (char *str,char x,int t) {
   int i,aux;

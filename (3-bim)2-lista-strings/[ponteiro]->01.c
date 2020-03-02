@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <string.h>
-#include <ctype.h>
 
 void preencheStr (char str[],char x,int t) {
   char *p = (str + t);
