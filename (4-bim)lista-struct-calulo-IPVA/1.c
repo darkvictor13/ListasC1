@@ -74,6 +74,7 @@ int descobreColuna(char *str) {
 	else if (strcmp(str, "ONIBUS")) return 1;
 	else if (strcmp(str, "MOTOCICLETA")) return 2;
 	else if (strcmp(str, "CAMINHONETE")) return 3;
+	else return -1;
 }
 
 void geraIpva(veiculo *v[], int tv, float *a[], int ta) {
@@ -82,7 +83,7 @@ void geraIpva(veiculo *v[], int tv, float *a[], int ta) {
 		j = descobreColuna(v[count]->categoria);
 		v[count]->ipva = malloc(sizeof(float) * ta);
 		for (i = 0; i < ta; i++) {
-			v[count]->ipva[j] = (a[i][j] * v[count]->preco) / 100;
+			v[count]->ipva[i] = (a[i][j] * v[count]->preco) / 100;
 		}
 	}
 }
@@ -96,15 +97,55 @@ void printaDados(veiculo *v[], int t) {
 	}
 }
 
+void printaNCaracteres(FILE *a, char ch, int n) {
+	for (int i = 0; i < n; i++) {
+		fprintf(a, "%c", ch);
+	}
+}
+
+void printaEstados(FILE *a,int n) {
+	for(int i = 0; i < n; i++) {
+		fprintf(a, "   Estado%d", i+1);
+	}
+}
+
+void cabecalho(FILE *a, int tam_aliq) {
+	printaNCaracteres(a, ' ', 15);
+	fprintf(a, "TABELA DE IPVA POR ESTADO\n");
+	printaNCaracteres(a, ' ', 20);
+	printaEstados(a, tam_aliq);
+	fprintf(a, "\n");
+}
+
+void printaIpva(FILE *a, veiculo x, int tam_aliq) {
+	for(int i = 0; i < tam_aliq; i++) {
+		fprintf(a, "%.2f ", x.ipva[i]);
+	}
+	fprintf(a, "\n");
+}
+
+void relat (char *nome_arq, veiculo *v[], int tv, int tam_aliq) {
+	FILE *a = fopen(nome_arq, "w");
+
+	cabecalho(a, tam_aliq);
+
+	for(int i = 0; i < tv; i++) {
+		fprintf(a, "%-23s", v[i]->modelo);
+		printaIpva(a, *v[i], tam_aliq);
+	}
+}
+
 int main (int argc, char *argv[]) {
 	veiculo *vetor[MAXC];
 	float *aliquotas[4];
 	int na, nv;
 	lerAliquotas(aliquotas, &na);
-	printaMatriz(aliquotas, na);
+	//printaMatriz(aliquotas, na);
 	if (!load(argv[1], vetor, &nv)) {
 		printf("Nao foi possivel ler o arquivo!");
 	}
-	printaDados(vetor, nv);
+	//printaDados(vetor, nv);
+	relat(argv[2], vetor, nv, na);
+	
 	return 0;
 }
