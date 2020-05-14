@@ -3,7 +3,7 @@
 void printAlfabeto () {
 	char i;
   for (i = 'a'; i <= 'z'; i++) {
-		printf ("%c\n", i);
+		printf("%c\n", i);
   }
 }
 
