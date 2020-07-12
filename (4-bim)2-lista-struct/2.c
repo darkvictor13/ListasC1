@@ -5,7 +5,6 @@
 #define MAX_NUMS 10
 #define TAM_R 6
 
-
 typedef struct {
 	int *aposta;
   int tam_aposta;
@@ -36,6 +35,7 @@ int lerApostas (S_aposta **vet, char *nome_arch) {
   char separador;
   FILE *arch = fopen(nome_arch, "r");
   if (arch == NULL) {
+    printf("Arquivo não existe, por favor verifique se escreveu corretamente!\n");
     return 0;
   }
 
