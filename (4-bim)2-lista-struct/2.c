@@ -68,11 +68,23 @@ int numerosIguais(int *v1, int *v2, int tam_v1, int tam_v2) {
   return resposta;
 }
 
-void verificaAcertos (S_aposta **matriz, int *r, int tam_m) {
-  int i_matriz;
-  for(i_matriz = 0; i_matriz < tam_m; i_matriz++) {
+void verificaAcertos (S_aposta **matriz, int *r, int tam_m, int **v, int *tam_v) {
+  int i_matriz, i_vet;
+  *v = (int *)malloc(sizeof(int) * tam_m);
+  for(i_matriz = i_vet = 0; i_matriz < tam_m; i_matriz++) {
     matriz[i_matriz]->acertos = numerosIguais(r, matriz[i_matriz]->aposta, TAM_R, matriz[i_matriz]->tam_aposta);
+
+    if (matriz[i_matriz]->acertos == 6) {
+      *v[i_vet] = i_matriz + 1;
+      i_vet++;
+    }
   }
+  if (!i_vet) {
+    free(*v);
+  }else {
+    *v = realloc(*v, sizeof(int) * i_vet);
+  }
+  *tam_v = i_vet;
 }
 
 void escreveVetNoArq (FILE *arch, int *vet, int tam) {
@@ -84,9 +96,9 @@ void escreveVetNoArq (FILE *arch, int *vet, int tam) {
   fprintf(arch, "%02d}", vet[i]);
 }
 
-void pulaLinhaRelat(FILE *arch) {
+void pulaLinhaRelat(FILE *arch, int tam) {
   fprintf(arch, "|");
-  for(int i = 0; i < 58; i++) {
+  for(int i = 0; i < tam; i++) {
     fprintf(arch, "-");
   }
   fprintf(arch, "|\n");
@@ -99,29 +111,49 @@ void printaEspaco (FILE *arch, int n) {
 }
 
 void cabecalho (FILE *arch, int *r) {
-  pulaLinhaRelat(arch);
+  pulaLinhaRelat(arch, 58);
   fprintf(arch, "|RESULTADO = ");
   escreveVetNoArq(arch, r, TAM_R);
   printaEspaco(arch, 27);
   fprintf(arch, "|\n");
-  pulaLinhaRelat(arch);
+  pulaLinhaRelat(arch, 58);
   fprintf(arch, "|%10s|%37s|%9s|\n", "", "", "");
   fprintf(arch, "|%-10s|%-38s|%-9s|\n", "CANDIDATO", "NÚMEROS DA APOSTA", "ACERTOS");
   fprintf(arch, "|%10s|%37s|%9s|\n", "", "", "");
-  pulaLinhaRelat(arch);
+  pulaLinhaRelat(arch, 58);
 }
 
-void EscreveRelat (char *nome_arch, int *r, S_aposta **m, int tam_m) {
+void escreveRelat (char *nome_arch, int *r, S_aposta **m, int tam_m, int *v, int tam_v) {
+  int i;
   FILE *arch = fopen(nome_arch, "w");
 
   cabecalho(arch, r);
 
-  for(int i = 0; i < tam_m; i++) {
+  for(i = 0; i < tam_m; i++) {
     fprintf(arch, "|%3s%04d%3s|", "", i + 1, "");
     escreveVetNoArq(arch, m[i]->aposta, m[i]->tam_aposta);
     printaEspaco(arch, 36 - (m[i]->tam_aposta * 3));
     fprintf(arch, "|%4s%d%4s|\n", "", m[i]->acertos, "");
   }
+  pulaLinhaRelat(arch, 58);
+  if (!tam_v) {
+    fprintf(arch, "|Ninguém acertou os 6 dígitos%30s|\n", "");
+    pulaLinhaRelat(arch, 58);
+    return;
+  }
+  if (tam_v == 1) {
+    fprintf(arch, "|Candidato número [%04d] acertou os 6 dígitos%14s|\n", v[0], "");
+    pulaLinhaRelat(arch, 58);
+    return;
+  }
+
+  fprintf(arch, "|Número dos candidatos que acertaram os 6 dígitos:%10s|\n", "");
+  pulaLinhaRelat(arch, 58);
+  for(i = 0, tam_v--; i < tam_v; i++) {
+    fprintf(arch, "|%04d ", v[i]);
+  }
+  fprintf(arch, "%04d|\n", v[i]);
+  pulaLinhaRelat(arch, 58);
 }
 
 void liberaMemoria (S_aposta **m, int t) {
@@ -142,6 +174,7 @@ int main (int argc, char *argv[]) {
   int resultado[TAM_R];
   S_aposta **apostadores;
   int num_apostadores;
+  int *vencedores, tam_v;
 
   printf("Por favor entre com o resultado do concurso\n");
 	lerVet(resultado, TAM_R);
@@ -150,8 +183,8 @@ int main (int argc, char *argv[]) {
 	num_apostadores = lerApostas(apostadores, argv[1]);
   apostadores = realloc(apostadores, num_apostadores * sizeof(S_aposta*));
 
-  verificaAcertos(apostadores, resultado, num_apostadores);
-  EscreveRelat("saida.txt", resultado, apostadores, num_apostadores);
+  verificaAcertos(apostadores, resultado, num_apostadores, &vencedores, &tam_v);
+  escreveRelat("saida.txt", resultado, apostadores, num_apostadores, vencedores, tam_v);
 
   liberaMemoria(apostadores, num_apostadores);
 	return 0;
