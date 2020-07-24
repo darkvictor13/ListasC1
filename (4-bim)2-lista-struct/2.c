@@ -13,14 +13,14 @@ typedef struct {
 
 void lerVet(int *v, int tam) {
 	for(int i = 0; i < tam; i++) {
-		scanf("%d", v + i);
+    scanf("%d", v + i);
 	}
 }
 
 void copiaVet(int *v1, int *v2, int t) {
-	for(int i = 0; i < t; i++) {
-		v1[i] = v2[i];
-	}
+  for(int i = 0; i < t; i++) {
+    v1[i] = v2[i];
+  }
 }
 
 void prinVet (int *vet, int tam) {
@@ -30,6 +30,7 @@ void prinVet (int *vet, int tam) {
   printf("\n");
 }
 
+// Lê o arquivo, retorna o tanto de apostas lidas
 int lerApostas (S_aposta **vet, char *nome_arch) {
   int i, aux[MAX_NUMS], tam_aux;
   char separador;
@@ -55,6 +56,8 @@ int lerApostas (S_aposta **vet, char *nome_arch) {
   return i;
 }
 
+
+//Retorna quantos números são iguais nos 2 vetores
 int numerosIguais(int *v1, int *v2, int tam_v1, int tam_v2) {
   int i, j, resposta;
   for(i = resposta = 0; i < tam_v1; i++) {
@@ -79,6 +82,7 @@ void verificaAcertos (S_aposta **matriz, int *r, int tam_m, int **v, int *tam_v)
       i_vet++;
     }
   }
+
   if (!i_vet) {
     free(*v);
   }else {

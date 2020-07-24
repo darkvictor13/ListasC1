@@ -7,12 +7,13 @@
 void inverteStr(char dest[],char org[]) {
   int tam = strlen(org);
   
-  dest += (tam - 1);
+  dest += tam;
+  *dest = '\0';
+  dest--;
 
   for (; *org; org++,dest--) {
     *dest = *org;
   }
-  *dest = '\0';
 }
 
 int main () {
