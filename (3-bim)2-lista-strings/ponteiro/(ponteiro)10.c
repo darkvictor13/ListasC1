@@ -2,6 +2,17 @@
 #include <string.h>
 #include <ctype.h>
 
+int caracterEspecial (char x) {
+  char ref[] = "@#$%& − +<> ";
+  for(; *ref; ref++) {
+    if (x == *ref) {
+      return 1;
+    }
+  } 
+  return 0;
+}
+
+
 int segurancaDaSenha (char str[]) {
   int tam,maiusc,minusc,num,especial;
   tam = maiusc = minusc = num = especial = 0;
@@ -20,7 +31,7 @@ int segurancaDaSenha (char str[]) {
     if (isdigit(*str)) {
       num = 1;
     }
-    if (ispunct(*str)) {
+    if (caracterEspecial(*str)) {
       especial = 1;
     }
   }
