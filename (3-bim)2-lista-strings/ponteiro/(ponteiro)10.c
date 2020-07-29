@@ -3,7 +3,7 @@
 #include <ctype.h>
 
 int caracterEspecial (char x) {
-  char ref[] = "@#$%& − +<> ";
+  char *ref = "@#$%& − +<> ";
   for(; *ref; ref++) {
     if (x == *ref) {
       return 1;
