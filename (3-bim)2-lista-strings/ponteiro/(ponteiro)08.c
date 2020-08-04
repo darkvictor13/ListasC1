@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <string.h>
+#include <ctype.h>
 
-int contaCharMaiuscEMinusc(char *str,char x) {
+int contaCharMaiuscEMinusc(char *str, char x) {
   int count;
   char parametro;
 
@@ -20,12 +20,13 @@ int contaCharMaiuscEMinusc(char *str,char x) {
 }
 
 int main () {
-  char str[50],parametro;
+  char str[50], parametro;
   int i;
 
-  for (scanf("%d %c%*c",&i,&parametro); i > 0; i--) {
+  for (scanf("%d %c%*c", &i, &parametro); i > 0; i--) {
     gets(str);
-    printf("%d\n",contaCharMaiuscEMinusc(str,parametro));
+    printf("%d\n", contaCharMaiuscEMinusc(str, parametro));
   }
+
   return 0;
 }

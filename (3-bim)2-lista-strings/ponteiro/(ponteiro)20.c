@@ -3,22 +3,20 @@
 
 #define maxt 51
 
-int temNaReferencia (char ref[],char x) {
-  int count;
-
-  for (count = 0; *ref; ref++) {
+int temNaReferencia (char ref[], char x) {
+  for (; *ref; ref++) {
     if (*ref == x) {
-      count = 1;
+      return 1;
     }
   }
-  return count;
+  return 0;
 }
 
-int contaPalavras(char str[],char ref[]) {
+int contaPalavras(char str[], char ref[]) {
   int count = 1;
 
   for (str++; *str; str++) {
-    if (!temNaReferencia(ref,*str) && temNaReferencia(ref,*(str - 1))) {
+    if (!temNaReferencia(ref, *str) && temNaReferencia(ref, *(str - 1))) {
       count++;
     }
   }
@@ -26,13 +24,13 @@ int contaPalavras(char str[],char ref[]) {
 }
 
 int main () {
-  char str[maxt],referencia[maxt];
+  char str[maxt], referencia[maxt];
   int casos;
 
-  scanf("%d %[^\n]%*c",&casos,referencia);
+  scanf("%d %[^\n]%*c", &casos, referencia);
 
   for (; casos > 0; casos--) {
-    scanf("%[^\n]%*c",str);
-    printf("%d\n",contaPalavras(str,referencia));
+    scanf("%[^\n]%*c", str);
+    printf("%d\n", contaPalavras(str, referencia));
   }
 }

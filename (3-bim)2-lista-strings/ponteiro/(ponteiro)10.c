@@ -14,7 +14,7 @@ int caracterEspecial (char x) {
 
 
 int segurancaDaSenha (char str[]) {
-  int tam,maiusc,minusc,num,especial;
+  int tam, maiusc, minusc, num, especial;
   tam = maiusc = minusc = num = especial = 0;
 
   if (strlen(str) > 7) {
@@ -41,9 +41,9 @@ int segurancaDaSenha (char str[]) {
 int main () {
   char str[51];
   int casos;
-  for (scanf("%d ",&casos); casos > 0; casos--) {
-    scanf("%[^\n]%*c",str);
-    printf("%d\n",segurancaDaSenha(str));
+  for (scanf("%d%*c", &casos); casos > 0; casos--) {
+    scanf("%[^\n]%*c", str);
+    printf("%d\n", segurancaDaSenha(str));
   }
   return 0;
 }

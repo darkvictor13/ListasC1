@@ -3,10 +3,10 @@
 
 #define maxt 201
 
-void primeiraLetraMaiusc(char dest[],char org[]) {
+void primeiraLetraMaiusc(char dest[], char org[]) {
   *(dest++) = toupper(*(org++));
 
-  for(; *org; org++,dest++) {
+  for(; *org; org++, dest++) {
     if (*(org - 1) == ' ') {
       *dest = toupper(*org);
     }else {
@@ -17,13 +17,13 @@ void primeiraLetraMaiusc(char dest[],char org[]) {
 }
 
 int main () {
-  char destino[maxt],origem[maxt];
+  char destino[maxt], origem[maxt];
   int casos;
 
-  for (scanf("%d%*c",&casos); casos > 0; casos--) {
-    scanf("%[^\n]%*c",origem);
-    primeiraLetraMaiusc(destino,origem);
-    printf("[%s]\n",destino);
+  for (scanf("%d%*c", &casos); casos > 0; casos--) {
+    scanf("%[^\n]%*c", origem);
+    primeiraLetraMaiusc(destino, origem);
+    printf("[%s]\n", destino);
   }
   return 0;
 }

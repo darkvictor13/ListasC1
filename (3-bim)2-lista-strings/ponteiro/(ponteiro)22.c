@@ -24,16 +24,16 @@ int conta_parenteses (char *str) {
 int main () {
   char str[maxt];
 
-  scanf("%[^\n]%*c",str);
+  scanf("%[^\n]%*c", str);
 
-  while (strcmp(str,"fim")) {
+  while (strcmp(str, "fim")) {
     if(conta_parenteses(str)) {
       printf("sim\n");
     }else {
       printf("nao\n");
     }
     
-    scanf("%[^\n]%*c",str);
+    scanf("%[^\n]%*c", str);
   }
   return 0;
 }
