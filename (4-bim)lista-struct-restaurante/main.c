@@ -40,7 +40,7 @@ void lerConsumo (FILE *arch, s_consumo *v, int *t) {
     fscanf(arch, "%d %f%*r", &v[i].qnt, &v[i].preco);
     fscanf(arch, "%s", buffer);
   }
-  //fscanf(arch, "%*r");
+  fscanf(arch, "%*r");
   *t = i;
 }
 
@@ -61,7 +61,6 @@ void ler1Struct (FILE *arch, s_total *s) {
 }
 
 int leitura (s_total *consumidores, s_data *data) {
-  
   int i;
   FILE *arch = fopen(ENTRADA, "r");
   if (arch == NULL) {
@@ -70,8 +69,8 @@ int leitura (s_total *consumidores, s_data *data) {
   }
 
   fscanf(arch, "%d/%d/%d%*r", &data->dia, &data->mes, &data->ano);
-  //for(i = 0; !feof(arch); i++) {
-  for(i = 0; i < 2; i++) {
+  for(i = 0; !feof(arch); i++) {
+  //for(i = 0; i < 2; i++) {
     ler1Struct(arch, consumidores + i);
   }
   return i;
@@ -79,34 +78,42 @@ int leitura (s_total *consumidores, s_data *data) {
 
 void printAll (s_data data, s_total *v, int t) {
   int i, j;
-    printf("Ano = (%d/%d/%d)\n", data.dia, data.mes, data.ano);
+  printf("Ano = (%d/%d/%d)\n", data.dia, data.mes, data.ano);
+
   for(i = 0; i < t; i++) {
     printf("=======================\n");
     printf("Consumo num %d\n", i + 1);
     printf("=======================\n");
     printf("Nome do garçom = (%s)\n", v[i].nome_g);
     printf("Mesa = (%d)\n", v[i].mesa);
-    printf("Hora entrada = (%d:%d)\n", v[i].entrada.hora, v[i].entrada.min);
+    printf("Hora entrada = (%d:%d) | ", v[i].entrada.hora, v[i].entrada.min);
     printf("Hora saída = (%d:%d)\n", v[i].saida.hora, v[i].saida.min);
     printf("Pessoas na mesa = (%d)\n", v[i].qnt_pessoas);
 
     for(j = 0; j < v[i].tam_vet; j++) {
-      printf("---------------\n");
-      printf("item = %s\n", v[i].vet[j].item);
-      printf("quantidade = %d\n", v[i].vet[j].qnt);
+      printf("item = %s ", v[i].vet[j].item);
+      printf("quantidade = %d ", v[i].vet[j].qnt);
       printf("preço = %.2f\n", v[i].vet[j].preco);
     }
   }
 }
 
 int main (int argc, char *argv[]) {
+  //if (argc != 2) {
+    //printf("Você está usando o programa de forma errada!\n");
+    //printf("Por favor rode:\n");
+    //printf("[Nome do programa] [espaço em branco] [nome do arquivo]\n");
+    //return 0;
+  //}
+
   s_total *vetor;
   s_data data;
   int consumidores;
+
   vetor = (s_total *)malloc(sizeof(s_total) * MAXCONSUMIDORES);
   consumidores = leitura(vetor, &data);
   printf("Num total de consumidores = %d\n", consumidores);
-  vetor = (s_total *)realloc(vetor, consumidores * sizeof(s_total));
+  vetor = (s_total *)realloc(vetor, sizeof(s_total) * consumidores);
   printAll(data, vetor, consumidores);
 //  free()
   return 0;
