@@ -22,7 +22,6 @@ typedef struct {
 }s_consumo;
 
 typedef struct {
-  s_data data;
   s_hora entrada, saida;
   s_consumo *vet;
   int tam_vet;
@@ -38,48 +37,53 @@ void lerConsumo (FILE *arch, s_consumo *v, int *t) {
   for (i = 0; strcmp(buffer, "<fim>"); i++) {
     v[i].item = (char *)malloc(strlen(buffer) + 1);
     strcpy(v[i].item, buffer);
-    //printf("compara buffer com copia [%s]-[%s]\n", buffer, v[i].item);
     fscanf(arch, "%d %f%*r", &v[i].qnt, &v[i].preco);
-    printf("compara preco %f\n", v[i].preco);
-    printf("compara quantidade %d\n", v[i].qnt);
     fscanf(arch, "%s", buffer);
   }
-  fscanf(arch, "%*r");
+  //fscanf(arch, "%*r");
   *t = i;
 }
 
-int leitura (s_total *consumidores) {
-  int i;
+void ler1Struct (FILE *arch, s_total *s) {
   char buffer[MAXN];
+
+  fscanf(arch,"%[^\n]%*r", buffer);
+  s->nome_g = malloc(strlen(buffer) + 1);
+  strcpy(s->nome_g, buffer);
+  fscanf(arch, "%*s %d%*r", &s->mesa);
+  fscanf(arch, "%d:%d", &s->entrada.hora, &s->entrada.min);
+  fscanf(arch, "%d:%d%*r", &s->saida.hora, &s->saida.min);
+  fscanf(arch, "%d%*r", &s->qnt_pessoas);
+
+  s->vet = (s_consumo *)malloc(sizeof(s_consumo) * MAXC);
+  lerConsumo(arch, s->vet, &s->tam_vet);
+  s->vet = (s_consumo *)realloc(s->vet, sizeof(s_consumo) * s->tam_vet);
+}
+
+int leitura (s_total *consumidores, s_data *data) {
+  
+  int i;
   FILE *arch = fopen(ENTRADA, "r");
   if (arch == NULL) {
     printf("Falha na leitura do arquivo!\n");
     return 0;
   }
 
-  for(i = 0; !feof(arch); i++) {
-    fscanf(arch, "%d/%d/%d%*r", &consumidores[i].data.dia, &consumidores[i].data.mes, &consumidores[i].data.ano);
-    fscanf(arch,"%[^\n]%*r", buffer);
-    consumidores[i].nome_g = malloc(strlen(buffer) + 1);
-    strcpy(consumidores[i].nome_g, buffer);
-    fscanf(arch, "%*s %d%*r", &consumidores[i].mesa);
-    fscanf(arch, "%d:%d", &consumidores[i].entrada.hora, &consumidores[i].entrada.min);
-    fscanf(arch, "%d:%d%*r", &consumidores[i].saida.hora, &consumidores[i].saida.min);
-    fscanf(arch, "%d%*r", &consumidores[i].qnt_pessoas);
-
-    consumidores[i].vet = (s_consumo *)malloc(sizeof(s_consumo) * MAXC);
-    lerConsumo(arch, consumidores[i].vet, &consumidores[i].tam_vet);
-    //printf("numero de consumos = %d\n", consumidores[i].tam_vet);
-    consumidores[i].vet = (s_consumo *)realloc(consumidores[i].vet, sizeof(s_consumo) * consumidores[i].tam_vet);
-  printf("Fim da pesssoa num%d", i);
+  fscanf(arch, "%d/%d/%d%*r", &data->dia, &data->mes, &data->ano);
+  //for(i = 0; !feof(arch); i++) {
+  for(i = 0; i < 2; i++) {
+    ler1Struct(arch, consumidores + i);
   }
   return i;
 }
 
-void printAll (s_total *v, int t) {
+void printAll (s_data data, s_total *v, int t) {
   int i, j;
+    printf("Ano = (%d/%d/%d)\n", data.dia, data.mes, data.ano);
   for(i = 0; i < t; i++) {
-    printf("Ano = (%d/%d/%d)\n", v[i].data.dia, v[i].data.mes, v[i].data.ano);
+    printf("=======================\n");
+    printf("Consumo num %d\n", i + 1);
+    printf("=======================\n");
     printf("Nome do garçom = (%s)\n", v[i].nome_g);
     printf("Mesa = (%d)\n", v[i].mesa);
     printf("Hora entrada = (%d:%d)\n", v[i].entrada.hora, v[i].entrada.min);
@@ -88,21 +92,22 @@ void printAll (s_total *v, int t) {
 
     for(j = 0; j < v[i].tam_vet; j++) {
       printf("---------------\n");
-      printf("item = %s\n", v[i].vet[i].item);
-      printf("quantidade = %d\n", v[i].vet[i].qnt);
-      printf("preço = %.2f\n", v[i].vet[i].preco);
+      printf("item = %s\n", v[i].vet[j].item);
+      printf("quantidade = %d\n", v[i].vet[j].qnt);
+      printf("preço = %.2f\n", v[i].vet[j].preco);
     }
   }
 }
 
 int main (int argc, char *argv[]) {
   s_total *vetor;
+  s_data data;
   int consumidores;
   vetor = (s_total *)malloc(sizeof(s_total) * MAXCONSUMIDORES);
-  printf("Num total de consumidores = %d", consumidores);
-  consumidores = leitura(vetor);
+  consumidores = leitura(vetor, &data);
+  printf("Num total de consumidores = %d\n", consumidores);
   vetor = (s_total *)realloc(vetor, consumidores * sizeof(s_total));
-  printAll(vetor, consumidores);
+  printAll(data, vetor, consumidores);
 //  free()
   return 0;
 }
