@@ -29,6 +29,27 @@ typedef struct {
   int mesa, qnt_pessoas;
 }s_total;
 
+int achaCaracter (char x, char str[]) {
+  for(int i = 0; str[i]; i++) {
+    if (str[i] == x) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+void adicionaExtensao (char *dest, char *e) {
+  for(; *dest; dest++) {
+    ;
+  }
+
+  *dest = '.';
+  for(dest++; *e; e++, dest++) {
+    *dest = *e;
+  }
+  *dest = *e;
+}
+
 void lerConsumo (FILE *arch, s_consumo *v, int *t) {
   int i;
   char buffer[21];
@@ -99,12 +120,36 @@ void printAll (s_data data, s_total *v, int t) {
 }
 
 int main (int argc, char *argv[]) {
-  //if (argc != 2) {
-    //printf("Você está usando o programa de forma errada!\n");
-    //printf("Por favor rode:\n");
-    //printf("[Nome do programa] [espaço em branco] [nome do arquivo]\n");
-    //return 0;
-  //}
+  char *nome_arch;
+  if (argc <= 0 || 3 <= argc) {
+    printf("Você está usando o programa de forma errada!\n");
+    printf("Por favor rode:\n");
+    printf("[Nome do programa] [espaço em branco] [nome do arquivo com os dados]\n");
+    return 0;
+  }else if (argc == 2) {
+    nome_arch = (char *)malloc(strlen(argv[1]) + 1);
+    strcpy(nome_arch, argv[1]);
+  }else if (argc == 1) {
+    nome_arch = (char *)malloc(MAXN);
+    printf("Você não nos informou o nome do arquivo com os dados\n");
+    printf("Por favor insira o nome aqui >> ");
+    scanf("%[^\n]%*c", nome_arch);
+    if (!achaCaracter('.', nome_arch)) {
+      char aux[4];
+      printf("Qual a extensão desse aquivo que você me passou?\n"); 
+      printf("Ele é um txt? Um log? Ou o que?\n");
+      printf("Entre com a extensão do arquivo -> ");
+      scanf("%[^\n]%*c", aux);
+      printf("Tam do aux == %d", (int)strlen(aux));
+      if () { // se a string esta vazia
+        adicionaExtensao(nome_arch, aux);
+      }
+    }
+    nome_arch = realloc(nome_arch, strlen(nome_arch) + 1);
+  }
+
+  printf("O nome do arquivo para abir ficou\n>>>[%s]\n", nome_arch);
+  return 0;
 
   s_total *vetor;
   s_data data;
