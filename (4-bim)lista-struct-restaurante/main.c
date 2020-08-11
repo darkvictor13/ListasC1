@@ -91,7 +91,6 @@ int leitura (s_total *consumidores, s_data *data) {
 
   fscanf(arch, "%d/%d/%d%*r", &data->dia, &data->mes, &data->ano);
   for(i = 0; !feof(arch); i++) {
-  //for(i = 0; i < 2; i++) {
     ler1Struct(arch, consumidores + i);
   }
   return i;
@@ -136,12 +135,14 @@ int main (int argc, char *argv[]) {
     scanf("%[^\n]%*c", nome_arch);
     if (!achaCaracter('.', nome_arch)) {
       char aux[4];
+      aux[0] = 0;
+      aux[1] = 0;
       printf("Qual a extensão desse aquivo que você me passou?\n"); 
       printf("Ele é um txt? Um log? Ou o que?\n");
       printf("Entre com a extensão do arquivo -> ");
       scanf("%[^\n]%*c", aux);
       printf("Tam do aux == %d", (int)strlen(aux));
-      if () { // se a string esta vazia
+      if (aux[0] == '\n') {
         adicionaExtensao(nome_arch, aux);
       }
     }
