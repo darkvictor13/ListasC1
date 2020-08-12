@@ -7,6 +7,10 @@
 #define MAXC 100
 #define MAXCONSUMIDORES 1000
 
+/*---------------------------------
+   Structs que guardam os valores
+   lidos no arquivo
+---------------------------------*/
 typedef struct {
   int dia, mes, ano;
 }s_data;
@@ -27,7 +31,22 @@ typedef struct {
   int tam_vet;
   char *nome_g;
   int mesa, qnt_pessoas;
-}s_total;
+}s_entrada;
+
+/*---------------------------------
+  Structs utilizadas para
+  armazenar dados úteis
+  para os cálculos
+---------------------------------*/
+typedef struct {
+  char *nome;
+  int qnt_vendida;
+}s_produto;
+
+typedef struct {
+  s_produto *vet;
+  int tam;
+}s_vetor_produtos;
 
 int achaCaracter (char x, char str[]) {
   for(int i = 0; str[i]; i++) {
@@ -65,7 +84,7 @@ void lerConsumo (FILE *arch, s_consumo *v, int *t) {
   *t = i;
 }
 
-void ler1Struct (FILE *arch, s_total *s) {
+void ler1Struct (FILE *arch, s_entrada *s) {
   char buffer[MAXN];
 
   fscanf(arch,"%[^\n]%*r", buffer);
@@ -81,9 +100,9 @@ void ler1Struct (FILE *arch, s_total *s) {
   s->vet = (s_consumo *)realloc(s->vet, sizeof(s_consumo) * s->tam_vet);
 }
 
-int leitura (s_total *consumidores, s_data *data) {
+int leitura (s_entrada *consumidores, s_data *data, char *fn) {
   int i;
-  FILE *arch = fopen(ENTRADA, "r");
+  FILE *arch = fopen(fn, "r");
   if (arch == NULL) {
     printf("Falha na leitura do arquivo!\n");
     return 0;
@@ -96,7 +115,7 @@ int leitura (s_total *consumidores, s_data *data) {
   return i;
 }
 
-void printAll (s_data data, s_total *v, int t) {
+void printAll (s_data data, s_entrada *v, int t) {
   int i, j;
   printf("Ano = (%d/%d/%d)\n", data.dia, data.mes, data.ano);
 
@@ -114,6 +133,26 @@ void printAll (s_data data, s_total *v, int t) {
       printf("item = %s ", v[i].vet[j].item);
       printf("quantidade = %d ", v[i].vet[j].qnt);
       printf("preço = %.2f\n", v[i].vet[j].preco);
+    }
+  }
+}
+
+int itemApareceu (s_vetor_produtos p, char *nome_item) {
+  for(int i = 0; i < p.tam; i++) {
+    if (!strcmp(nome_item, p.vet[i].nome)) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+void estatisticaProdutos (s_entrada *v, int tam, s_vetor_produtos p) {
+  int i, j, aux;
+  for(i = j = 0; i < tam; i++) {
+    for(aux = 0; aux < v[i].tam_vet; aux++) {
+      if (!itemApareceu(p, v[i].vet[aux].item)) {
+        p.vet[j++].nome = malloc(sizeof(char) * strlen(v[i].vet[aux].item));
+      }
     }
   }
 }
@@ -141,26 +180,28 @@ int main (int argc, char *argv[]) {
       printf("Ele é um txt? Um log? Ou o que?\n");
       printf("Entre com a extensão do arquivo -> ");
       scanf("%[^\n]%*c", aux);
-      printf("Tam do aux == %d", (int)strlen(aux));
-      if (aux[0] == '\n') {
+      if (aux[0] != '\n') {
         adicionaExtensao(nome_arch, aux);
       }
     }
     nome_arch = realloc(nome_arch, strlen(nome_arch) + 1);
   }
 
-  printf("O nome do arquivo para abir ficou\n>>>[%s]\n", nome_arch);
-  return 0;
-
-  s_total *vetor;
-  s_data data;
+  s_entrada *vetor;
   int consumidores;
 
-  vetor = (s_total *)malloc(sizeof(s_total) * MAXCONSUMIDORES);
-  consumidores = leitura(vetor, &data);
-  printf("Num total de consumidores = %d\n", consumidores);
-  vetor = (s_total *)realloc(vetor, sizeof(s_total) * consumidores);
-  printAll(data, vetor, consumidores);
-//  free()
+  s_data data;
+  s_vetor_produtos p;
+
+  vetor = (s_entrada *)malloc(sizeof(s_entrada) * MAXCONSUMIDORES);
+  consumidores = leitura(vetor, &data, nome_arch);
+
+  free(nome_arch);
+
+  vetor = (s_entrada *)realloc(vetor, sizeof(s_entrada) * consumidores);
+  //printAll(data, vetor, consumidores);
+  p.vet = (s_produto *)malloc(sizeof(s_produto) * MAXN);
+  estatisticaProdutos(vetor, consumidores, p);
+  p.vet = (s_produto *)realloc(p.vet, sizeof(s_produto) * p.tam);
   return 0;
 }
