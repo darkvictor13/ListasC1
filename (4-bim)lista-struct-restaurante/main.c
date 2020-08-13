@@ -147,11 +147,17 @@ int itemApareceu (s_vetor_produtos p, char *nome_item) {
 }
 
 void estatisticaProdutos (s_entrada *v, int tam, s_vetor_produtos p) {
-  int i, j, aux;
-  for(i = j = 0; i < tam; i++) {
-    for(aux = 0; aux < v[i].tam_vet; aux++) {
-      if (!itemApareceu(p, v[i].vet[aux].item)) {
-        p.vet[j++].nome = malloc(sizeof(char) * strlen(v[i].vet[aux].item));
+  int i_entrada, i_consumo, i_produto;
+  for(i_entrada = i_consumo = 0; i_entrada < tam; i_entrada++) {
+    for(i_produto = 0; i_produto < v[i_entrada].tam_vet; i_produto++) {
+      if (!itemApareceu(p, v[i_entrada].vet[i_produto].item)) {
+        p.vet[i_consumo].nome = malloc(sizeof(char) * strlen(v[i_entrada].vet[i_produto].item));
+        p.vet[i_consumo].qnt_vendida = v[i_entrada].vet[i_produto].qnt;
+        strcpy(p.vet[i_consumo].nome, v[i_entrada].vet[i_produto].item);
+        i_consumo++;
+      }else{
+        // to do;
+        //p.vet[]
       }
     }
   }
