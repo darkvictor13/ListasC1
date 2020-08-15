@@ -2,7 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define ENTRADA "consumo2.txt"
+#define RELAT_PROD "produtos.txt"
+#define PROD_ORDENADO "produtos2.txt"
 #define MAXN 51
 #define MAXC 100
 #define MAXCONSUMIDORES 1000
@@ -11,20 +12,26 @@
    Structs que guardam os valores
    lidos no arquivo
 ---------------------------------*/
+
+// uma struct para armazenar o dia em que foi feita as entradas
 typedef struct {
   int dia, mes, ano;
 }s_data;
 
+// vai ser usada para guardar a hora
+//de entrada e saída dos clientes
 typedef struct {
   int hora, min;
 }s_hora;
 
+// o consumo de uma mesa
 typedef struct {
   char *item;
   int qnt;
   float preco;
 }s_consumo;
 
+// todas as informações sobre o consumo
 typedef struct {
   s_hora entrada, saida;
   s_consumo *vet;
@@ -38,9 +45,11 @@ typedef struct {
   armazenar dados úteis
   para os cálculos
 ---------------------------------*/
+
+// informações sobre um produto especifico
 typedef struct {
   char *nome;
-  int qnt_vendida;
+  unsigned int qnt_vendida;
 }s_produto;
 
 typedef struct {
@@ -51,9 +60,12 @@ typedef struct {
 int achaCaracter (char x, char str[]) {
   for(int i = 0; str[i]; i++) {
     if (str[i] == x) {
+      // se o carácter str[i] for igual ao carácter x que procuramos
+      // ele retorna verdade
       return 1;
     }
   }
+  // não encontrou o carácter que procuramos
   return 0;
 }
 
@@ -137,29 +149,49 @@ void printAll (s_data data, s_entrada *v, int t) {
   }
 }
 
-int itemApareceu (s_vetor_produtos p, char *nome_item) {
-  for(int i = 0; i < p.tam; i++) {
-    if (!strcmp(nome_item, p.vet[i].nome)) {
-      return 1;
+int itemApareceu (s_vetor_produtos *p, char *nome_item) {
+  for(int i = 0; i < p->tam; i++) {
+    if (!strcmp(nome_item, p->vet[i].nome)) {
+      //retorna o índice em que apareceu o item igual;
+      return i;
     }
   }
-  return 0;
+  // -1 indica que não encontrou o item nesse vetor;
+  return -1;
 }
 
-void estatisticaProdutos (s_entrada *v, int tam, s_vetor_produtos p) {
-  int i_entrada, i_consumo, i_produto;
-  for(i_entrada = i_consumo = 0; i_entrada < tam; i_entrada++) {
+void estatisticaProdutos (s_entrada *v, int tam, s_vetor_produtos *p) {
+  // i_entrada esta relacionado ao vetor de entradas
+  // i_produto esta relacionado ao vetor de produtos
+  // i_apareceu indica o índice em que um item apareceu no vetor de produtos
+  int i_entrada, i_produto, i_apareceu;
+
+  // zera p tamanho do vetor de todos os produtos
+  p->tam = 0;
+
+  for(i_entrada = 0; i_entrada < tam; i_entrada++) {
     for(i_produto = 0; i_produto < v[i_entrada].tam_vet; i_produto++) {
-      if (!itemApareceu(p, v[i_entrada].vet[i_produto].item)) {
-        p.vet[i_consumo].nome = malloc(sizeof(char) * strlen(v[i_entrada].vet[i_produto].item));
-        p.vet[i_consumo].qnt_vendida = v[i_entrada].vet[i_produto].qnt;
-        strcpy(p.vet[i_consumo].nome, v[i_entrada].vet[i_produto].item);
-        i_consumo++;
-      }else{
-        // to do;
-        //p.vet[]
+      i_apareceu = itemApareceu(p, v[i_entrada].vet[i_produto].item);
+      if (i_apareceu == -1) {
+        p->vet[p->tam].nome = malloc(strlen(v[i_entrada].vet[i_produto].item));
+        p->vet[p->tam].qnt_vendida = v[i_entrada].vet[i_produto].qnt;
+        strcpy(p->vet[p->tam].nome, v[i_entrada].vet[i_produto].item);
+        p->tam++;
+      }else {
+        p->vet[i_apareceu].qnt_vendida += v[i_entrada].vet[i_produto].qnt;
       }
     }
+  }
+}
+
+void printProdutos (s_vetor_produtos *p) {
+  FILE *arch = fopen(RELAT_PROD, "w");
+  for(int i = 0; i < p->tam; i++) {
+    fprintf(arch, "Produto num %d\n", i + 1);
+    fprintf(arch, "==========================\n");
+    fprintf(arch, "Produto = %s\n", p->vet[i].nome);
+    fprintf(arch, "Quantidade vendida = %d\n", p->vet[i].qnt_vendida);
+    fprintf(arch, "==========================\n\n");
   }
 }
 
@@ -207,7 +239,8 @@ int main (int argc, char *argv[]) {
   vetor = (s_entrada *)realloc(vetor, sizeof(s_entrada) * consumidores);
   //printAll(data, vetor, consumidores);
   p.vet = (s_produto *)malloc(sizeof(s_produto) * MAXN);
-  estatisticaProdutos(vetor, consumidores, p);
+  estatisticaProdutos(vetor, consumidores, &p);
   p.vet = (s_produto *)realloc(p.vet, sizeof(s_produto) * p.tam);
+  printProdutos(&p);
   return 0;
 }
