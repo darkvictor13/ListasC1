@@ -184,14 +184,77 @@ void estatisticaProdutos (s_entrada *v, int tam, s_vetor_produtos *p) {
   }
 }
 
-void printProdutos (s_vetor_produtos *p) {
+s_produto* localDoMaiorProduto (s_produto *inicio, s_produto *fim) {
+  s_produto *maior = inicio;
+
+  for(inicio++; inicio <= fim; inicio++) {
+    if (maior->qnt_vendida < inicio->qnt_vendida) {
+      maior = inicio;
+    }
+  }
+
+  return maior;
+}
+
+void trocaProdutos (s_produto *a, s_produto *b) {
+  s_produto aux;
+  aux = *a;
+  *a = *b;
+  *b = aux;
+}
+
+void printNaTelaProdutos (s_vetor_produtos *p) {
+  for(int i = 0; i < p->tam; i++) {
+    printf("Produto num %d\n", i + 1);
+    printf("==========================\n");
+    printf("Produto = %s\n", p->vet[i].nome);
+    printf("Quantidade vendida = %d\n", p->vet[i].qnt_vendida);
+    printf("==========================\n\n");
+  }
+}
+
+void ordenaProdutos (s_vetor_produtos *p) {
+  int i;
+  for(i = 0; i < p->tam; i++) {
+    trocaProdutos(p->vet+i, localDoMaiorProduto(p->vet + i, p->vet + p->tam - 1));
+    printNaTelaProdutos(p);
+  }
+}
+
+/*------------------------------------
+  Seção de funções que facilitam para
+  Escrever nos arquivos
+------------------------------------*/
+
+void separador (FILE *a, int n, char caracter) {
+  // n = numero de caracteres que deseja usar para separar 
+  for(int i = 0; i < n; i++) {
+    fprintf(a, "%c", caracter);
+  }
+  fprintf(a, "\n");
+}
+
+void relatProdutos (s_vetor_produtos *p) {
   FILE *arch = fopen(RELAT_PROD, "w");
   for(int i = 0; i < p->tam; i++) {
     fprintf(arch, "Produto num %d\n", i + 1);
-    fprintf(arch, "==========================\n");
+    separador(arch, 26, '=');
     fprintf(arch, "Produto = %s\n", p->vet[i].nome);
     fprintf(arch, "Quantidade vendida = %d\n", p->vet[i].qnt_vendida);
-    fprintf(arch, "==========================\n\n");
+    separador(arch, 26, '=');
+    fprintf(arch, "\n");
+  }
+}
+
+void relatProdutosOrdenado (s_vetor_produtos *p) {
+  FILE *arch = fopen(PROD_ORDENADO , "w");
+  for(int i = 0; i < p->tam; i++) {
+    fprintf(arch, "Produto num %d\n", i + 1);
+    separador(arch, 26, '=');
+    fprintf(arch, "Produto = %s\n", p->vet[i].nome);
+    fprintf(arch, "Quantidade vendida = %d\n", p->vet[i].qnt_vendida);
+    separador(arch, 26, '=');
+    fprintf(arch, "\n");
   }
 }
 
@@ -212,7 +275,6 @@ int main (int argc, char *argv[]) {
     scanf("%[^\n]%*c", nome_arch);
     if (!achaCaracter('.', nome_arch)) {
       char aux[4];
-      aux[0] = 0;
       aux[1] = 0;
       printf("Qual a extensão desse aquivo que você me passou?\n"); 
       printf("Ele é um txt? Um log? Ou o que?\n");
@@ -237,10 +299,12 @@ int main (int argc, char *argv[]) {
   free(nome_arch);
 
   vetor = (s_entrada *)realloc(vetor, sizeof(s_entrada) * consumidores);
-  //printAll(data, vetor, consumidores);
   p.vet = (s_produto *)malloc(sizeof(s_produto) * MAXN);
   estatisticaProdutos(vetor, consumidores, &p);
   p.vet = (s_produto *)realloc(p.vet, sizeof(s_produto) * p.tam);
-  printProdutos(&p);
+
+  relatProdutos(&p);
+  ordenaProdutos(&p);
+  relatProdutosOrdenado(&p);
   return 0;
 }
