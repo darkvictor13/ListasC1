@@ -60,8 +60,6 @@ typedef struct {
 int achaCaracter (char x, char str[]) {
   for(int i = 0; str[i]; i++) {
     if (str[i] == x) {
-      // se o carácter str[i] for igual ao carácter x que procuramos
-      // ele retorna verdade
       return 1;
     }
   }
@@ -78,8 +76,12 @@ void adicionaExtensao (char *dest, char *e) {
   for(dest++; *e; e++, dest++) {
     *dest = *e;
   }
-  *dest = *e;
+  *dest = 0;
 }
+
+/*
+  Funções para ler o arquivo
+*/
 
 void lerConsumo (FILE *arch, s_consumo *v, int *t) {
   int i;
@@ -117,6 +119,7 @@ int leitura (s_entrada *consumidores, s_data *data, char *fn) {
   FILE *arch = fopen(fn, "r");
   if (arch == NULL) {
     printf("Falha na leitura do arquivo!\n");
+    printf("Você deve ter passado o nome errado chefia\n");
     return 0;
   }
 
@@ -125,6 +128,12 @@ int leitura (s_entrada *consumidores, s_data *data, char *fn) {
     ler1Struct(arch, consumidores + i);
   }
   return i;
+}
+
+void liberaMemoriaDaEntrada (s_entrada *v, int tam) {
+  for(int i = 0; i < tam; i++) {
+    
+  }
 }
 
 void printAll (s_data data, s_entrada *v, int t) {
@@ -217,7 +226,7 @@ void ordenaProdutos (s_vetor_produtos *p) {
   int i;
   for(i = 0; i < p->tam; i++) {
     trocaProdutos(p->vet+i, localDoMaiorProduto(p->vet + i, p->vet + p->tam - 1));
-    printNaTelaProdutos(p);
+    //printNaTelaProdutos(p);
   }
 }
 
@@ -271,7 +280,7 @@ int main (int argc, char *argv[]) {
   }else if (argc == 1) {
     nome_arch = (char *)malloc(MAXN);
     printf("Você não nos informou o nome do arquivo com os dados\n");
-    printf("Por favor insira o nome aqui >> ");
+    printf("Por favor insira o nome aqui -> ");
     scanf("%[^\n]%*c", nome_arch);
     if (!achaCaracter('.', nome_arch)) {
       char aux[4];
@@ -281,7 +290,11 @@ int main (int argc, char *argv[]) {
       printf("Entre com a extensão do arquivo -> ");
       scanf("%[^\n]%*c", aux);
       if (aux[0] != '\n') {
-        adicionaExtensao(nome_arch, aux);
+        if(aux[0] == '.') {
+          strcat(nome_arch, aux);
+        }else {
+          adicionaExtensao(nome_arch, aux);
+        }
       }
     }
     nome_arch = realloc(nome_arch, strlen(nome_arch) + 1);
