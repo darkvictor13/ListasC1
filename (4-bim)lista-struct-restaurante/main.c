@@ -57,6 +57,16 @@ typedef struct {
   int tam;
 }s_vetor_produtos;
 
+typedef struct {
+  char *nome_do_garcom;
+  int total_de_vendas;
+}s_garcom;
+
+typedef struct {
+  s_garcom *vet;
+  int tam;
+}s_vetor_garcons;
+
 int achaCaracter (char x, char str[]) {
   for(int i = 0; str[i]; i++) {
     if (str[i] == x) {
@@ -230,6 +240,10 @@ void ordenaProdutos (s_vetor_produtos *p) {
   }
 }
 
+void estatiticaGarcons (s_entrada *vet, int tam_vet, s_vetor_garcons *g) {
+  //to do
+}
+
 /*------------------------------------
   Seção de funções que facilitam para
   Escrever nos arquivos
@@ -305,6 +319,7 @@ int main (int argc, char *argv[]) {
 
   s_data data;
   s_vetor_produtos p;
+  s_vetor_garcons g;
 
   vetor = (s_entrada *)malloc(sizeof(s_entrada) * MAXCONSUMIDORES);
   consumidores = leitura(vetor, &data, nome_arch);
@@ -319,5 +334,9 @@ int main (int argc, char *argv[]) {
   relatProdutos(&p);
   ordenaProdutos(&p);
   relatProdutosOrdenado(&p);
+
+  g.vet = (s_garcom *)malloc(sizeof(s_garcom) * MAXN);
+  estatiticaGarcons(vetor, consumidores, &g);
+  g.vet = (s_garcom *)realloc(g.vet, sizeof(s_garcom) * g.tam);
   return 0;
 }
